@@ -343,9 +343,8 @@ class DockerBackend(Backend):
         trust = Trust()
         trust.discover_sigstore(fq_name)
         util.write_out("Pulling {} ...".format(fq_name))
-        util.skopeo_copy("docker://{}".format(fq_name), image, debug=debug, insecure=insecure,
+        return util.skopeo_copy("docker://{}".format(fq_name), image, debug=debug, insecure=insecure,
                          policy_filename=trust.policy_filename, src_creds=src_creds)
-        return 0
 
     def delete_container(self, container, force=False):
         return self.d.remove_container(container, force=force)

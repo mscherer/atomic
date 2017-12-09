@@ -108,7 +108,9 @@ class Run(Atomic):
             if self.args.display:
                 return 0
             try:
-                db.pull_image(self.image, remote_image_obj)
+                err = db.pull_image(self.image, remote_image_obj)
+                if err:
+                    raise ValueError("Unable to pull image {}".format(self.image))
                 img_object = db.has_image(self.image)
             except RegistryInspectError:
                 raise ValueError("Unable to find image {}".format(self.image))
